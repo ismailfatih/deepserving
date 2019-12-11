@@ -1,5 +1,4 @@
 import uvicorn
-import sys
 from classification_model import inference_model
 from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
@@ -13,20 +12,16 @@ def create_app():
                        allow_origins=["*"],
                        allow_headers=["X-Requested-With", "Content-Type"])
 
-    @app.route("/")
+    @app.route("/{data}")
     async def homepage(request):
-        return PlainTextResponse("Server")
-
-    @app.route("/predic/{input}", methods=["GET"])
-    async def analyze(request):
-        sentence = request.path_params["input"]
-        prediction = inference_model.predict(sentence)[0]
+        data = request.path_params["data"]
+        prediction = inference_model.predict_detailed(input)
         return JSONResponse(prediction)
 
-    @app.route("/predict-details/{input}", methods=["GET"])
-    async def analyze_details(request):
-        sentence = request.path_params["input"]
-        prediction = inference_model.predict_detailed(input)
+    @app.route("/predict/{data}", methods=["GET"])
+    async def analyze(request):
+        data = request.path_params["data"]
+        prediction = inference_model.predict(data)
         return JSONResponse(prediction)
 
     return app

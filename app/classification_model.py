@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 from io import BytesIO
-from app.ml_model import MlModel, Configuration
+from interfaces.ml_model import MlModel, Configuration
 from injector import Module, provider, Injector, inject, singleton, InstanceProvider
 from pathlib import Path
 
@@ -17,12 +17,12 @@ class ClassificationModel(MlModel):
         self.configuration = configuration
 
     def setup_model(self):
-        pass
+        self.configuration = self.configuration
 
-    def inference(self, input):
+    def predict(self, input):
         return {"result": 1}
 
-    def inference_detailed(self, input):
+    def predict_detailed(self, input):
         return {"result": 1, "details": {"0": 1, "1": 0}}
 
 
@@ -33,7 +33,7 @@ class ClassificationModelModule(Module):
 
     @singleton
     @provider
-    def provide_inference_model(self, configuration: Configuration) -> MlModel:
+    def provide_ml_model(self, configuration: Configuration) -> MlModel:
         model = ClassificationModel(configuration)
         return model
 
