@@ -1,5 +1,5 @@
 import uvicorn
-from injector import inference_model
+from model_injector import inference_model
 from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse, PlainTextResponse
