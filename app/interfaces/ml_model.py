@@ -18,6 +18,3 @@ class MlModel:
 
     def predict(self, input):
         pass
-
-    def predict_detailed(self, input):
-        pass
